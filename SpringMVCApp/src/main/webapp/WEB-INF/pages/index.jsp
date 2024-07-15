@@ -19,5 +19,11 @@
                 <li>${c.name}</li>
             </c:forEach>
         </ul>
+        
+        <ul>
+            <c:forEach items="${products}" var="p">
+                <li>${p.name}</li>
+            </c:forEach>
+        </ul>
     </body>
 </html>

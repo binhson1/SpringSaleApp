@@ -20,7 +20,11 @@ import org.springframework.web.servlet.view.JstlView;
  */
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = "com.vhbs.controllers")
+@ComponentScan(basePackages = {
+    "com.vhbs.services",
+    "com.vhbs.repository",
+    "com.vhbs.controllers"
+})
 @EnableTransactionManagement
 public class WebApplicationContextConfig implements WebMvcConfigurer{
 

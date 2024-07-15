@@ -4,6 +4,8 @@
  */
 package com.vhbs.controllers;
 
+import com.vhbs.services.CategoryService;
+import com.vhbs.services.ProductService;
 import javax.persistence.Query;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,15 +21,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 public class HomeController {
+//    @Autowired
+//    private LocalSessionFactoryBean factory;
+    
     @Autowired
-    private LocalSessionFactoryBean factory;
+    private CategoryService cateService;
+    @Autowired
+    private ProductService prodService;
     
     @RequestMapping("/")
-    @Transactional
+//    @Transactional
     public String index(Model model){
-        Session s = this.factory.getObject().getCurrentSession();
-        Query q = s.createQuery("From Category");
-        model.addAttribute("cates", q.getResultList());
+//        Session s = this.factory.getObject().getCurrentSession();
+//        Query q = s.createQuery("From Category");
+
+        model.addAttribute("cates", this.cateService.getCates());
+        model.addAttribute("cates", this.prodService.getProducts(null));
             return "index";
     }
 }

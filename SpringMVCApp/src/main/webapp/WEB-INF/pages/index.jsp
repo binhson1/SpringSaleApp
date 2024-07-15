@@ -4,6 +4,7 @@
     Author     : ACER
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -13,5 +14,10 @@
     </head>
     <body>
         <h1>Xin Chào</h1>
+        <ul>
+            <c:forEach items="${cates}" var="c">
+                <li>${c.name}</li>
+            </c:forEach>
+        </ul>
     </body>
 </html>

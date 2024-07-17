@@ -7,6 +7,7 @@ package com.vhbs.repository.impl;
 //import com.vhbs.hibernateapp.HibernateUtils;
 import com.vhbs.hibernateapp.pojo.Product;
 import com.vhbs.repository.ProductRopository;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import javax.persistence.Query;
@@ -28,36 +29,63 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 @Transactional
 public class ProductRepositoryImpl implements ProductRopository {
-
+    
+     private static final int PAGE_SIZE = 4;
     @Autowired
     private LocalSessionFactoryBean factory;
 
     @Override
     public List<Product> getProducts(Map<String, String> params) {
         Session s = this.factory.getObject().getCurrentSession();
-        {
-            CriteriaBuilder b = s.getCriteriaBuilder();
-            CriteriaQuery<Product> q = b.createQuery(Product.class);
-            Root root = q.from(Product.class);
-            q.select(root);
-            if (params != null) {
+        CriteriaBuilder b = s.getCriteriaBuilder();
+        CriteriaQuery<Product> q = b.createQuery(Product.class);
+        Root root = q.from(Product.class);
+        q.select(root);
 
-                String kw = params.get("q");
-                if (kw != null && !kw.isEmpty()) {
-                    Predicate p1 = b.like(root.get("name"), String.format("%%%s%%", kw));
-                    q.where(p1);
-                }
-
-                String price = params.get("price");
-                if (kw != null && !kw.isEmpty()) {
-                    Predicate p2 = b.greaterThanOrEqualTo(root.get("price"), Double.parseDouble(price));
-                    q.where(p2);
-                }
-
+        if (params != null) {
+            List<Predicate> predicates = new ArrayList<>();
+            String kw = params.get("q");
+            if (kw != null && !kw.isEmpty()) {
+                Predicate p1 = b.like(root.get("name"), String.format("%%%s%%", kw));
+                predicates.add(p1);
             }
-            Query query = s.createQuery(q);
-            return query.getResultList();
+
+            String fromPrice = params.get("fromPrice");
+            if (fromPrice != null && !fromPrice.isEmpty()) {
+                Predicate p2 = b.greaterThanOrEqualTo(root.get("price"), Double.parseDouble(fromPrice));
+                predicates.add(p2);
+            }
+
+            String toPrice = params.get("toPrice");
+            if (toPrice != null && !toPrice.isEmpty()) {
+                Predicate p3 = b.lessThanOrEqualTo(root.get("price"), Double.parseDouble(toPrice));
+                predicates.add(p3);
+            }
+
+            String cateId = params.get("cateId");
+            if (cateId != null && !cateId.isEmpty()) {
+                Predicate p4 = b.equal(root.get("categoryId"), Integer.parseInt(cateId));
+                predicates.add(p4);
+            }
+
+            q.where(predicates.toArray(Predicate[]::new));
         }
+
+        Query query = s.createQuery(q);
+
+        if (params != null) {
+            String page = params.get("page");
+            if (page != null && !page.isEmpty()) {
+                int p = Integer.parseInt(page);
+                int start = (p - 1) * PAGE_SIZE;
+
+                query.setFirstResult(start);
+                query.setMaxResults(PAGE_SIZE);
+            }
+        }
+
+        return query.getResultList();
+
     }
 
     @Override

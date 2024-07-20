@@ -29,6 +29,7 @@
         </form>
     </div>
     <div class="col-9">
+        <a class="btn btn-info" href="<c:url value="/product"></c:url>">Thêm sản phẩm</a>
         <table class="table table-striped"> 
             <tr>
                 <th></th>

@@ -83,14 +83,5 @@ public class WebApplicationContextConfig implements WebMvcConfigurer {
         registry.addFormatter(new CategoryFormatter());
     }
 
-    @Bean
-    public Cloudinary cloudinary() {
-        Cloudinary cloudinary
-                = new Cloudinary(ObjectUtils.asMap(
-                        "cloud_name", "dluxogrmn",
-                        "api_key", "958699327246893",
-                        "api_secret", "sL64XQ_2Djr4kg8Gi2vZyR-f5MA",
-                        "secure", true));
-        return cloudinary;
-    }
+   
 }

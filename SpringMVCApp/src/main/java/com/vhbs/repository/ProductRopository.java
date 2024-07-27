@@ -16,4 +16,5 @@ public interface ProductRopository {
     List<Product> getProducts(Map<String, String> params);
     public void addOrUpdate(Product p);
     public Product getProductById(int id);
+    void deleteProduct(int id);
 }

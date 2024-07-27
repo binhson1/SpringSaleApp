@@ -7,6 +7,8 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="s" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">VHBS </a>
@@ -26,6 +28,21 @@
                         <a class="nav-link" href="${cateUrl}">${c.name}</a>
                     </li>
                 </c:forEach>                        
+                <s:authorize access="!isAuthenticated()">
+                    <li class="nav-item">
+                        <a class="nav-link" href="<c:url value="/login"></c:url>Đăng nhập</a>
+                    </li>
+                </s:authorize>
+                <s:authorize access="isAuthenticated()">
+                    <li class="nav-item">
+                        <a class="nav-link" href="<c:url value="/"></c:url>">
+                            <a:authentication property="principal.username">
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<c:url value="/logout"></c:url>Đăng xuất</a>
+                    </li>
+                </s:authorize>
             </ul>
         </div>
     </div>

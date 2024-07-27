@@ -44,8 +44,7 @@ public class HomeController {
     public String index(Model model, @RequestParam Map<String, String> params){
 //        Session s = this.factory.getObject().getCurrentSession();
 //        Query q = s.createQuery("From Category");
-
-        model.addAttribute("cates", this.cateService.getCates());
+        
         model.addAttribute("prods", this.prodService.getProducts(params));
             return "index";
     }

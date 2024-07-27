@@ -40,7 +40,7 @@
             </tr>
             <c:forEach items="${prods}" var="p">
                 <tr>
-                    <td><img src="${c.image}" alt="${c.name}"></td>                    
+                    <td><img src="${p.image}" alt="${p.name}></td>                    
                     <td>${p.id}</td>
                     <td>${p.name}</td>
                     <td>${String.format("%,d", p.price)} VND</td>

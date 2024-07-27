@@ -35,4 +35,10 @@ public class ProductServiceImpl implements ProductService{
     public Product getProduct(int id) {
         return this.proRe.getProductById(id);
     }
+    
+     @Override
+    public void deleteProduct(int id) {
+        // do something...
+        this.proRe.deleteProduct(id);
+    }
 }
